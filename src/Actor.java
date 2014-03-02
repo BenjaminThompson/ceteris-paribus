@@ -10,10 +10,10 @@ import java.util.Collections;
  */
 public class Actor {
     private ArrayList<Product> productArrayList;
-    private Hashtable<Product, Long> inventory = new Hashtable<Product, Long>(10);
-    private Hashtable<Product, Long> productionrates = new Hashtable<Product, Long>(10);
-    private Hashtable<Product, Long> consumptionrates = new Hashtable<Product,Long>(10);
-    private Hashtable<Product, Product> exchanges = new Hashtable<Product, Product>();
+    private Hashtable<Product, Long> inventory = new Hashtable<Product, Long>();
+    private Hashtable<Product, Long> productionrates = new Hashtable<Product, Long>();
+    private Hashtable<Product, Long> consumptionrates = new Hashtable<Product,Long>();
+    private Hashtable<Product, Product> willingtrades = new Hashtable<Product, Product>();
     private ArrayList<Product> wants = new ArrayList<Product>();
 
     Actor(double inventorySlope, double productionratesSlope, double consumptionratesSlope, ArrayList<Product> products) {
@@ -27,22 +27,25 @@ public class Actor {
         }
 
         // Variable "wants" represents each Actor's ordinal ranking of how much they desire each product.
-        // When possible exchanges are created, products with lower indexes are treated as more highly sought.
+        // When possible willingtrades are created, products with lower indexes are treated as more highly sought.
         Collections.shuffle(wants);
 
-        //Generate exchanges
-        createExchanges();
+        //Generate willingtrades
+        setWillingTrades();
     }
 
     /**
-     * In this version, exchanges are merely 1 for 1.
+     * In this version, willingtrades are merely 1 for 1.
      * Actor is willing to give 1 of any lower-ranked Product for 1 of any higher-ranked Product.
      * Prices will be hard to implement, so do it this way for now.
      */
-    private void createExchanges() {
-        for (int i = 0; i < wants.size()-1; i++) {
-            exchanges.put(wants.get(i), //The product desired
-                    wants.get(i+1));    //The product offered in exchange
+    private void setWillingTrades() {
+        willingtrades = null;
+        for (int i = 0; i < wants.size()-1; i++) { //Loop through list of Wants starting with most-desired
+            if (inventory.get(wants.get(i+1)) > 0) { //If product in inventory, offer it in exchange for a product desired more.
+                willingtrades.put(wants.get(i), //The product desired
+                        wants.get(i + 1));    //The product offered in exchange
+            }
         }
     }
 
@@ -54,6 +57,7 @@ public class Actor {
 
             inventory.put(p, qty);
         }
+        setWillingTrades();
 
     }
 
@@ -68,9 +72,18 @@ public class Actor {
 
             inventory.put(p, qty);
         }
+        setWillingTrades();
+    }
+    
+    public Hashtable<Product, Product> getWillingtrades() {
+        /** returns Actor's willingtrades */
+        return willingtrades;
     }
 
-
+    public Hashtable<Product, Long> trade(Hashtable<Product, Product> offers) {
+        /** Offers are the willingtrades of other actors */
+        }
+    }
 
 
 }
