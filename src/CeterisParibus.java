@@ -44,5 +44,29 @@ public class CeterisParibus {
 
         //TODO: Write the procedure for arranging trades and reporting on the state of the economy at each iteration.
     }
+    
+    public static void trade(Actor actor1, Actor actor2) {
+        //Function represents a voluntary trade with zero interference.
+        Hashtable <Product, Product> actor1_willingtrades = actor1.getWillingTrades();
+        Hashtable <Product, Product> actor2_willingtrades = actor2.getWillingTrades();
+
+        for (Entry<Product,Product> actor1_willingtrade : actor1_willingtrades.entrySet()) {
+            for (Entry<Product, Product> actor2_willingtrade : actor2_willingtrades.entrySet()) {
+                        //In any case where the two willing trades are the inverse of each other:
+                        //              <Product1, Product2> vs <Product2, Product1>
+                        //Then trade items between the Actors
+                        if (actor1_willingtrade.getKey() == actor2_willingtrade.getValue())
+                        {
+                            //Increment actor1 key Product by 1, decrement actor2 value Product by 1
+                        }
+                        if (actor1_willingtrade.getValue() == actor2_willingtrade.getKey()) {
+                            //Decrement actor1 value Product by 1, increment actor2 key Product by 1
+                        }
+            }
+        }
+        
+        actor1.setWillingTrades();
+        actor2.setWillingTrades();
+    }
 
 }
