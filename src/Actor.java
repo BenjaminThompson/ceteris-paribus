@@ -86,10 +86,25 @@ public class Actor {
         /** returns Actor's willingtrades */
         return this.willingtrades;
     }
+    
     public int getId() { return this.id;}
+    
     public Hashtable<Product, Long> getInventory() {return this.inventory;}
+    
     public Hashtable<Product, Long> getProductionrates() {return this.productionrates;}
+    
     public Hashtable<Product, Long> getConsumptionrates() {return this.consumptionrates;}
 
+    public long[] getSatisfactionReport () {
+        /** Reports the Actor's inventory quantities in order of greatest desired to least.
+         ** Does not reveal what those products are **/
+        long[] satisfactionReport = new long[wants.size()];
+        for (int i = 0; i < wants.size()) {
+            Product p = wants.get(i);
+            satisfactionReport.add(inventory.get(p));
+        }
+        
+        return satisfactionReport;
+    }
 
 }
