@@ -127,4 +127,25 @@ public class Actor {
         return satisfactionReport;
     }
 
+    public float getAverageProductionToConsumptionRatio() {
+        //Generates a number to roughly express whether the Actor produces more than they consume.
+        //Numbers above 1 are a net producer. Less than 1 are net consumers.
+        ArrayList<Float> ratios = new ArrayList<Float>(PRODUCT_SET.size());
+        for(Product product: PRODUCT_SET) {
+            Float p = (float)PRODUCTION_RATES.get(product);
+            Float c = (float)CONSUMPTION_RATES.get(product);
+
+            if (c.equals(0f)) {
+                ratios.add(p);
+            } else {
+                ratios.add(p/c);
+            }
+        }
+        Float total = 0f;
+        for(Float n : ratios) {
+            total += n;
+        }
+        return total/PRODUCT_SET.size();
+    }
+
 }

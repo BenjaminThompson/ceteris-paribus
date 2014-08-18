@@ -25,7 +25,7 @@ public class CeterisParibus {
 
     public static void main(String[] args) {
         Setup();
-        long TOTAL_ITERATIONS = 1000000;
+        long TOTAL_ITERATIONS = 100;
 
 
 
@@ -82,6 +82,7 @@ public class CeterisParibus {
         for (Actor actor : ACTORS) {
             String row = iteration + "\t";
             row += actor.getId() + "\t";
+            row += actor.getAverageProductionToConsumptionRatio() + "\t";
             for (Long qty : actor.getInventoriesByWantRank()) {
                 row += qty + "\t";
             }
