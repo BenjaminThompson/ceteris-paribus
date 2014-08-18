@@ -24,13 +24,13 @@ public class Actor {
           double productionratesSlope,
           double consumptionratesSlope,
           ArrayList<Product> products) {
-        this.ID = id;
+        ID = id;
         PRODUCT_SET = products;
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
-            INVENTORY.put(product, Math.round(Math.pow(i, inventorySlope)));
-            PRODUCTION_RATES.put(product, Math.round(Math.pow(i, productionratesSlope)));
-            CONSUMPTION_RATES.put(product, Math.round(Math.pow(i, consumptionratesSlope)));
+            INVENTORY.put(product, Math.round((i * inventorySlope)));
+            PRODUCTION_RATES.put(product, Math.round((i * productionratesSlope)));
+            CONSUMPTION_RATES.put(product, Math.round((i * consumptionratesSlope)));
             WANTS.add(product);
         }
 
