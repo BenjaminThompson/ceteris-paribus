@@ -115,7 +115,7 @@ public class Actor {
     
     public Hashtable<Product, Long> getConsumptionrates() {return this.CONSUMPTION_RATES;}
 
-    public ArrayList<Long> getSatisfactionReport () {
+    public ArrayList<Long> getInventoriesByWantRank () {
         /** Reports the io.github.praxeo.ceterisparibus.Actor's INVENTORY quantities in order of greatest desired to least.
          ** Does not reveal what those products are **/
         ArrayList<Long> satisfactionReport = new ArrayList<Long>(WANTS.size());

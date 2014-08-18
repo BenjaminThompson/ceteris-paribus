@@ -26,19 +26,27 @@ public class CeterisParibus {
     public static void main(String[] args) {
         Setup();
         long TOTAL_ITERATIONS = 1000000;
-        long ITERATIONS = 0;
 
-        //TODO: Write the procedure for arranging trades and reporting on the state of the economy at each iteration.
 
-        do {
-            //TODO: Report on state of economy.
 
-            //TODO: Arrange trades.
+        reportEconomyState(0);
+        for (long i = 1;i < TOTAL_ITERATIONS; i++) {
 
-            //TODO: Each Actor produces and consumes.
+            for(Actor actor1: ACTORS) {
+                for(Actor actor2: ACTORS) {
+                    if(!actor1.equals(actor2)) {
+                        trade(actor1, actor2);
+                    }
+                }
+            }
+            for(Actor actor: ACTORS) {
+                actor.produce();
+                actor.consume();
+            }
+            reportEconomyState(i);
 
-            ITERATIONS++;
-        } while (ITERATIONS < TOTAL_ITERATIONS);
+
+        }
 
     }
 
@@ -50,8 +58,8 @@ public class CeterisParibus {
         }
 
         //Generate the population, randomly assigning production and consumption rates
-        ACTORS = new ArrayList<Actor>(1000); //Creating set of actors
-        for (int i=0; i < 1000; i++) { //Start setting their production and consumption rates
+        ACTORS = new ArrayList<Actor>(100); //Creating set of actors
+        for (int i=0; i < 100; i++) { //Start setting their production and consumption rates
 
             int id = i;
             double inventorySlope = Math.random()*10;
@@ -70,6 +78,22 @@ public class CeterisParibus {
         }
     }
 
+    public static void reportEconomyState(long iteration) {
+        for (Actor actor : ACTORS) {
+            String row = iteration + "\t";
+            row += actor.getId() + "\t";
+            for (Long qty : actor.getInventoriesByWantRank()) {
+                row += qty + "\t";
+            }
+            System.out.println(row);
+        }
+
+    }
+
+
+
+
+
     public static void trade(Actor actor1, Actor actor2) {
         //Function represents a voluntary trade with zero interference.
         Hashtable <Product, Product> actor1_willingtrades = actor1.getWillingTrades();
@@ -80,17 +104,20 @@ public class CeterisParibus {
                         //In any case where the two willing trades are the inverse of each other:
                         //              <Product1, Product2> vs <Product2, Product1>
                         //Then trade items between the Actors
-                        if (actor1_willingtrade.getKey() == actor2_willingtrade.getValue())
+                        if (actor1_willingtrade.getKey() == actor2_willingtrade.getValue() &&
+                                actor1_willingtrade.getValue() == actor2_willingtrade.getKey())
                         {
                             //Increment actor1 key io.github.praxeo.ceterisparibus.Product by 1
-                            System.out.println("Actor "+actor1.getId()+
-                                    ", Product "+actor1_willingtrade.getKey().TYPE +": "+
-                                    actor1.incrementProduct(actor1_willingtrade.getKey()));
+                            //System.out.println("Actor "+actor1.getId()+
+                            //        ", Product "+actor1_willingtrade.getKey().TYPE +": "+
+                                    actor1.incrementProduct(actor1_willingtrade.getKey());
+                                    //));
                             //decrement actor2 value io.github.praxeo.ceterisparibus.Product by 1
                             try {
-                                System.out.println("Actor "+actor2.getId()+
-                                        ", Product "+actor2_willingtrade.getValue().TYPE +": "+
-                                        actor2.decrementProduct(actor2_willingtrade.getValue()));
+                                //System.out.println("Actor "+actor2.getId()+
+                                //        ", Product "+actor2_willingtrade.getValue().TYPE +": "+
+                                        actor2.decrementProduct(actor2_willingtrade.getValue());
+                                        //));
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 System.out.println("If I'm doing this right," +
@@ -99,12 +126,14 @@ public class CeterisParibus {
                                 return;
                             }
                         }
-                        if (actor1_willingtrade.getValue() == actor2_willingtrade.getKey()) {
+                        if (actor1_willingtrade.getValue() == actor2_willingtrade.getKey() &&
+                                actor1_willingtrade.getKey() == actor2_willingtrade.getValue()) {
                             //Decrement actor1 value io.github.praxeo.ceterisparibus.Product by 1
                             try {
-                                System.out.println("Actor "+actor1.getId()+
-                                        ", Product "+actor1_willingtrade.getValue().TYPE +": "+
-                                        actor1.decrementProduct(actor1_willingtrade.getValue()));
+                                //System.out.println("Actor "+actor1.getId()+
+                                //        ", Product "+actor1_willingtrade.getValue().TYPE +": "+
+                                        actor1.decrementProduct(actor1_willingtrade.getValue());
+                                        //));
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 System.out.println("If I'm doing this right," +
@@ -113,9 +142,10 @@ public class CeterisParibus {
                                 return;
                             }
                             //increment actor2 key io.github.praxeo.ceterisparibus.Product by 1
-                            System.out.println("Actor "+actor2.getId()+
-                                    ", Product "+actor2_willingtrade.getKey().TYPE +": "+
-                                    actor2.incrementProduct(actor2_willingtrade.getKey()));
+                            //System.out.println("Actor "+actor2.getId()+
+                            //        ", Product "+actor2_willingtrade.getKey().TYPE +": "+
+                                    actor2.incrementProduct(actor2_willingtrade.getKey());
+                                    //));
                         }
             }
         }
