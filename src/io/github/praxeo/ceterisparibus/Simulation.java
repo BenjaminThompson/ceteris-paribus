@@ -38,7 +38,7 @@ public class Simulation implements ISimulation {
             }
             Collections.shuffle(products);
 
-            ACTORS.add(i, new Actor(id, inventorySlope, productionratesSlope, consumptionratesSlope, products));
+            ACTORS.add(i, new Actor(id, "DEFAULT", inventorySlope, productionratesSlope, consumptionratesSlope, products));
 
         }
     }
@@ -117,6 +117,7 @@ public class Simulation implements ISimulation {
         for (Actor actor : ACTORS) {
             String row = iteration + "\t";
             row += actor.getId() + "\t";
+            row += actor.getTag() + "\t";
             row += actor.getAverageProductionToConsumptionRatio() + "\t";
             for (Long qty : actor.getInventoriesByWantRank()) {
                 row += qty + "\t";

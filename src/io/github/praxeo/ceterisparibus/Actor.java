@@ -12,6 +12,7 @@ import java.util.Collections;
  */
 public class Actor {
     private int ID;
+    private String TAG;
     private ArrayList<Product> PRODUCT_SET;
     private Hashtable<Product, Long> INVENTORY = new Hashtable<Product, Long>();
     private Hashtable<Product, Long> PRODUCTION_RATES = new Hashtable<Product, Long>();
@@ -20,11 +21,13 @@ public class Actor {
     private ArrayList<Product> WANTS = new ArrayList<Product>();
 
     Actor(int id,
+          String tag,
           double inventorySlope,
           double productionratesSlope,
           double consumptionratesSlope,
           ArrayList<Product> products) {
         ID = id;
+        TAG = tag;
         PRODUCT_SET = products;
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
@@ -41,6 +44,16 @@ public class Actor {
         //Generate WILLING_TRADES
         setWillingTrades();
     }
+
+    protected void setTag(String tag) {
+        this.TAG = tag;
+    }
+
+    protected String getTag() {
+        return TAG;
+    }
+
+
 
     /**
      * In this version, WILLING_TRADES are merely 1 for 1.
